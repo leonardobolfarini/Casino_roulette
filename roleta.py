@@ -2,6 +2,11 @@ from typing import Sequence
 from dataclasses import dataclass
 from random import randint
 
+def number_position_table(number):
+    col = (number - 1 ) // 3
+    line = (number - 1) % 3
+    return col, line
+
 DEFAULT_NUMBERS = (
     0,
     32,
@@ -45,6 +50,9 @@ DEFAULT_NUMBERS = (
 DEFAULT_RED_NUMBERS = tuple(DEFAULT_NUMBERS[1::2])
 DEFAULT_BLACK_NUMBERS = tuple(DEFAULT_NUMBERS[2::2])
 
+class InvalidBet(Exception):
+    pass
+
 @dataclass
 class Bet:
     value: float
@@ -84,32 +92,7 @@ class Bet:
     @classmethod
     def create_high_range(cls, value: float):
         return cls.create_from_range(value, range(19, 37))
-    
-    @classmethod
-    def create_first_dozen(cls, value: float):
-        return cls.create_from_range(value, range(1, 13))
-    
-    @classmethod
-    def create_second_dozen(cls, value: float):
-        return cls.create_from_range(value, range(13, 25))
-    
-    @classmethod
-    def create_third_dozen(cls, value: float):
-        return cls.create_from_range(value, range(25, 37))
 
-    @classmethod
-    def create_first_line(cls, value: float):
-        return cls.create_from_range(value, range(1, 35, 3))
-    
-    @classmethod
-    def create_second_line(cls, value: float):
-        return cls.create_from_range(value, range(2, 36, 3))
-    
-    @classmethod
-    def create_third_line(cls, value: float):
-        return cls.create_from_range(value, range(3, 37, 3))
-    
-    
 class Roulette:
     random_number: int
     
